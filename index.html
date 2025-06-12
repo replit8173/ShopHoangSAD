@@ -1,237 +1,131 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shop Acc Candy Blossom - Giá Rẻ Uy Tín</title>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #fff;
-      color: #111;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    header h1 {
-      font-size: 24px;
-      text-align: center;
-    }
-
-    .subtitle {
-      text-align: center;
-      font-style: italic;
-      color: #444;
-      margin-bottom: 20px;
-    }
-
-    .products, .pets-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-
-    .product-card, .pet-item {
-      border: 1px solid #ccc;
-      padding: 15px;
-      width: 180px;
-      border-radius: 8px;
-      text-align: center;
-      background: #fdfdfd;
-    }
-
-    .featured, .featured-pet {
-      border: 2px solid #ff69b4;
-      background: #fff0f5;
-    }
-
-    .buy-btn, .collect-btn {
-      padding: 8px 12px;
-      margin-top: 10px;
-      border: none;
-      background-color: #ff69b4;
-      color: white;
-      font-weight: bold;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .buy-btn:hover, .collect-btn:hover {
-      background-color: #ff1493;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 999;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-    }
-
-    .modal-content {
-      background: white;
-      margin: 15% auto;
-      padding: 20px;
-      width: 90%;
-      max-width: 500px;
-      border-radius: 10px;
-    }
-
-    .close {
-      float: right;
-      font-size: 20px;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Acc Candy Blossom - Giá Rẻ Uy Tín</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>🌸 SHOP BÁN ACC CANDY BLOSSOM VÀ THU PET 🌸</h1>
-      <p class="subtitle">Acc chất lượng cao - Giá rẻ nhất thị trường - Thu Pet Giá Tốt</p>
-    </header>
+    <div class="container">
+        <header>
+            <h1>🌸 SHOP BÁN ACC CANDY BLOSSOM VÀ THU PET🌸</h1>
+            <p class="subtitle">Acc chất lượng cao - Giá rẻ nhất thị trường - Thu Pet Giá Tốt</p>
+        </header>
 
-    <div class="products">
-      <div class="product-card">
-        <div class="product-image">🌱</div>
-        <h3>Acc Có Cây Candy Nhỏ</h3>
-        <p class="price">50.000 VNĐ</p>
-        <p class="description">Acc cây candy nhỏ à trong acc đã có sẵn dragon fly</p>
-        <button class="buy-btn" onclick="buyAccount('Candy Nhỏ', '50.000 VNĐ')">MUA NGAY</button>
-      </div>
+        <div class="products">
+            <div class="product-card">
+                <div class="product-image">🌱</div>
+                <h3>Acc Có Cây Candy Nhỏ</h3>
+                <p class="price">50.000 VNĐ</p>
+                <p class="description">Acc cây candy nhỏ à trong acc đã có sẵn dragon fly</p>
+                <button class="buy-btn" onclick="buyAccount('small', '50.000 VNĐ')">MUA NGAY</button>
+            </div>
 
-      <div class="product-card featured">
-        <div class="product-image">🌳</div>
-        <h3>Acc Có Cây Candy Lớn</h3>
-        <p class="price">100.000 VNĐ</p>
-        <p class="description">Acc cây candy lớn và có sẵn dragon fly</p>
-        <button class="buy-btn" onclick="buyAccount('Candy Lớn', '100.000 VNĐ')">MUA NGAY</button>
-      </div>
-    </div>
-
-    <div class="bonus-section">
-      <h3>🎁 ƯU ĐÃI ĐẶC BIỆT cho khách mua 🎁</h3>
-      <p>Mua bất kỳ acc nào đều được tặng <strong>Dragon Fly miễn phí!</strong></p>
-    </div>
-
-    <div class="pet-collection-section">
-      <h3>🐾 DỊCH VỤ THU PET 🐾</h3>
-      <p class="pet-notice">⚠️ <strong>KHÔNG THU PET DUPE</strong> - Vui lòng đưa pet trước, shop sẽ gửi thẻ cào tiền thu cho bạn!</p>
-
-      <div class="pets-grid">
-        <div class="pet-item">
-          <div class="pet-icon">🐉</div>
-          <h4>Dragon Fly</h4>
-          <p class="pet-price">80.000 VNĐ</p>
-          <button class="collect-btn" onclick="collectPet('Dragon Fly', '80.000 VNĐ')">THU NGAY</button>
+            <div class="product-card featured">
+                <div class="product-image">🌳</div>
+                <h3>Acc Có Cây Candy Lớn</h3>
+                <p class="price">100.000 VNĐ</p>
+                <p class="description">Acc cây candy lớn và có săn dragon fly</p>
+                <button class="buy-btn" onclick="buyAccount('large', '100.000 VNĐ')">MUA NGAY</button>
+            </div>
         </div>
 
-        <div class="pet-item">
-          <div class="pet-icon">🦝</div>
-          <h4>Raccoon</h4>
-          <p class="pet-price">90.000 VNĐ</p>
-          <button class="collect-btn" onclick="collectPet('Raccoon', '90.000 VNĐ')">THU NGAY</button>
+        <div class="bonus-section">
+            <h3>🎁 ƯU ĐÃI ĐặC BIỆT cho khách mua🎁</h3>
+            <p>Mua bất kỳ acc nào đều được tặng <strong>Dragon Fly miễn phí!</strong></p>
         </div>
 
-        <div class="pet-item">
-          <div class="pet-icon">🦋</div>
-          <h4>Butterfly</h4>
-          <p class="pet-price">130.000 VNĐ</p>
-          <button class="collect-btn" onclick="collectPet('Butterfly', '130.000 VNĐ')">THU NGAY</button>
+        <div class="pet-collection-section">
+            <h3>🐾 DỊCH VỤ THU PET 🐾</h3>
+            <p class="pet-notice">⚠️ <strong>KHÔNG THU PET DUPE</strong> - Vui lòng đưa pet trước, shop sẽ gửi thẻ cào tiền thu cho bạn!</p>
+            
+            <div class="pets-grid">
+                <div class="pet-item">
+                    <div class="pet-icon">🐉</div>
+                    <h4>Dragon Fly</h4>
+                    <p class="pet-price">80.000 VNĐ</p>
+                    <button class="collect-btn" onclick="collectPet('Dragon Fly', '80.000 VNĐ')">THU NGAY</button>
+                </div>
+                
+                <div class="pet-item">
+                    <div class="pet-icon">🦝</div>
+                    <h4>Raccoon</h4>
+                    <p class="pet-price">90.000 VNĐ</p>
+                    <button class="collect-btn" onclick="collectPet('Raccoon', '90.000 VNĐ')">THU NGAY</button>
+                </div>
+                
+                <div class="pet-item">
+                    <div class="pet-icon">🦋</div>
+                    <h4>Butterfly</h4>
+                    <p class="pet-price">130.000 VNĐ</p>
+                    <button class="collect-btn" onclick="collectPet('Butterfly', '130.000 VNĐ')">THU NGAY</button>
+                </div>
+                
+                <div class="pet-item featured-pet">
+                    <div class="pet-icon">🐝</div>
+                    <h4>Disco Bee</h4>
+                    <p class="pet-price">250.000 VNĐ</p>
+                    <button class="collect-btn" onclick="collectPet('Disco Bee', '250.000 VNĐ')">THU NGAY</button>
+                </div>
+                
+                <div class="pet-item">
+                    <div class="pet-icon">👑🐝</div>
+                    <h4>Queen Bee</h4>
+                    <p class="pet-price">70.000 VNĐ</p>
+                    <button class="collect-btn" onclick="collectPet('Queen Bee', '70.000 VNĐ')">THU NGAY</button>
+                </div>
+            </div>
         </div>
 
-        <div class="pet-item featured-pet">
-          <div class="pet-icon">🐝</div>
-          <h4>Disco Bee</h4>
-          <p class="pet-price">250.000 VNĐ</p>
-          <button class="collect-btn" onclick="collectPet('Disco Bee', '250.000 VNĐ')">THU NGAY</button>
+        <div class="contact-info">
+            <h3>📞 LIÊN HỆ MUA HÀNG</h3>
+            <p>TikTok: <strong>Giangacccandycheck9273</strong></p>
+            <p>Thanh toán: Thẻ cào điện thoại</p>
         </div>
+    </div>
 
-        <div class="pet-item">
-          <div class="pet-icon">👑🐝</div>
-          <h4>Queen Bee</h4>
-          <p class="pet-price">70.000 VNĐ</p>
-          <button class="collect-btn" onclick="collectPet('Queen Bee', '70.000 VNĐ')">THU NGAY</button>
+    <!-- Modal popup for buying accounts -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>🎉 MUA THÀNH CÔNG! 🎉</h2>
+            <div id="orderDetails"></div>
+            <div class="instructions">
+                <h3>📋 HƯỚNG DẪN NHẬN ACC:</h3>
+                <ol>
+                    <li>Vào TikTok và gõ trên thanh tìm kiếm: <strong>Giangacccandycheck9273</strong></li>
+                    <li>Nhắn tin cho shop với mã số đơn hàng của bạn</li>
+                    <li>Gửi thẻ cào để thanh toán</li>
+                    <li>Nhận acc và Dragon Fly miễn phí!</li>
+                </ol>
+            </div>
         </div>
-      </div>
     </div>
 
-    <div class="contact-info">
-      <h3>📞 LIÊN HỆ MUA HÀNG</h3>
-      <p>TikTok: <strong>Giangacccandycheck9273</strong></p>
-      <p>Thanh toán: Thẻ cào điện thoại</p>
+    <!-- Modal popup for pet collection -->
+    <div id="petModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePetModal()">&times;</span>
+            <h2>🐾 DỊCH VỤ THU PET 🐾</h2>
+            <div id="petDetails"></div>
+            <div class="instructions pet-instructions">
+                <h3>📋 HƯỚNG DẪN THU PET:</h3>
+                <ol>
+                    <li>⚠️ <strong>KHÔNG THU PET DUPE</strong> - Chỉ thu pet thật</li>
+                    <li>Vào TikTok và gõ trên thanh tìm kiếm: <strong>Giangacccandycheck9273</strong></li>
+                    <li>Nhắn tin cho shop với mã số giao dịch</li>
+                    <li><strong>ĐƯA PET TRƯỚC</strong> - Shop sẽ kiểm tra pet</li>
+                    <li>Shop sẽ gửi thẻ cào tiền thu cho bạn sau khi nhận pet</li>
+                </ol>
+                <div class="warning">
+                    <p>⚠️ <strong>LưU Ý:</strong> Bạn cần đưa pet trước, shop sẽ thanh toán sau khi nhận được pet!</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div id="successModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <h2>🎉 MUA THÀNH CÔNG! 🎉</h2>
-      <div id="orderDetails"></div>
-      <div class="instructions">
-        <h3>📋 HƯỚNG DẪN NHẬN ACC:</h3>
-        <ol>
-          <li>Vào TikTok tìm <strong>Giangacccandycheck9273</strong></li>
-          <li>Nhắn tin với mã đơn hàng</li>
-          <li>Gửi thẻ cào để thanh toán</li>
-          <li>Nhận acc và Dragon Fly miễn phí!</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <div id="petModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closePetModal()">&times;</span>
-      <h2>🐾 DỊCH VỤ THU PET 🐾</h2>
-      <div id="petDetails"></div>
-      <div class="instructions pet-instructions">
-        <h3>📋 HƯỚNG DẪN THU PET:</h3>
-        <ol>
-          <li><strong>KHÔNG THU PET DUPE</strong> - Chỉ thu pet thật</li>
-          <li>Vào TikTok tìm <strong>Giangacccandycheck9273</strong></li>
-          <li>Nhắn tin với mã giao dịch</li>
-          <li><strong>ĐƯA PET TRƯỚC</strong> - Shop kiểm tra rồi thanh toán</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function buyAccount(type, price) {
-      const details = `
-        <p>Bạn đã chọn acc loại: <strong>${type}</strong></p>
-        <p>Giá: <strong>${price}</strong></p>
-      `;
-      document.getElementById("orderDetails").innerHTML = details;
-      document.getElementById("successModal").style.display = "block";
-    }
-
-    function collectPet(name, price) {
-      const details = `
-        <p>Bạn đã chọn thu pet: <strong>${name}</strong></p>
-        <p>Giá: <strong>${price}</strong></p>
-      `;
-      document.getElementById("petDetails").innerHTML = details;
-      document.getElementById("petModal").style.display = "block";
-    }
-
-    function closeModal() {
-      document.getElementById("successModal").style.display = "none";
-    }
-
-    function closePetModal() {
-      document.getElementById("petModal").style.display = "none";
-    }
-  </script>
+    <script src="./script.js"></script>
 </body>
 </html>
