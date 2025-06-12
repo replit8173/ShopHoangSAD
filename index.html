@@ -651,4 +651,48 @@
                     confetti.style.height = '10px';
                     confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                     confetti.style.left = Math.random() * window.innerWidth + 'px';
-                    confetti.styl
+                    confetti.style.top = '-10px';
+                    confetti.style.zIndex = '9999';
+                    confetti.style.borderRadius = '50%';
+                    confetti.style.pointerEvents = 'none';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    const animation = confetti.animate([
+                        { transform: 'translateY(0px) rotate(0deg)', opacity: 1 },
+                        { transform: `translateY(${window.innerHeight + 20}px) rotate(360deg)`, opacity: 0 }
+                    ], {
+                        duration: 3000,
+                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                    });
+                    
+                    animation.onfinish = () => {
+                        confetti.remove();
+                    };
+                }, i * 100);
+            }
+        }
+
+        window.onclick = function(event) {
+            const successModal = document.getElementById('successModal');
+            const petModal = document.getElementById('petModal');
+            
+            if (event.target === successModal) {
+                closeModal();
+            }
+            if (event.target === petModal) {
+                closePetModal();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.2) + 's';
+                card.style.animation = 'float 3s ease-in-out infinite';
+            });
+        });
+    </script>
+</body>
+</html>
+
