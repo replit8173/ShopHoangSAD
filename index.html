@@ -1,10 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Acc Candy Blossom - Giá Rẻ Uy Tín</title>
-    <style> * {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop Acc Candy Blossom - Giá Rẻ Uy Tín</title>
+  <style>
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -417,6 +419,7 @@ header h1 {
         padding: 20px;
     }
 }
+
 .modal-content::before {
     content: "🎯 Kéo để di chuyển - 📜 Cuộn để xem thêm";
     position: absolute;
@@ -581,8 +584,13 @@ header h1 {
 .modal-content {
     scrollbar-width: thin;
     scrollbar-color: #e91e63 #f1f1f1;
-    }
-        <style> 
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+  </style>
 </head>
 <body>
   <div class="container">
@@ -721,7 +729,7 @@ header h1 {
     </div>
   </div>
 
-  
+  <script>
 function generateOrderCode() {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let result = 'CB';
@@ -889,14 +897,7 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.animationDelay = (index * 0.2) + 's';
         card.style.animation = 'float 3s ease-in-out infinite';
     });
-    
-    // Add CSS for floating animation
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-    `;
-    document.head.appendChild(style);
 });
+  </script>
+</body>
+</html>
