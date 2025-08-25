@@ -1,24 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Trang Xin Chào</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>2 anh tài</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background-image: url("images/bg.jpg"); /* lấy ảnh từ thư mục images trong repo */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
-    h1 {
-      color: #2c3e50;
+
+    .hero::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.45), rgba(0,0,0,0.25));
+    }
+
+    .title {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      font-size: clamp(28px, 6vw, 72px);
+      font-weight: bold;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      z-index: 1;
     }
   </style>
 </head>
 <body>
-  <h1>Xin chào!</h1>
+  <section class="hero">
+    <h1 class="title">2 anh tài</h1>
+  </section>
 </body>
 </html>
