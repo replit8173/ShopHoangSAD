@@ -1,0 +1,555 @@
+-- Local Script cho Vietnamese Hub Toggle GUI với tính năng kéo thả
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Tạo ScreenGui chính
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "VietnameseHubGui"
+screenGui.Parent = playerGui
+
+-- Tạo Frame chính (GUI nhỏ hơn)
+local mainFrame = Instance.new("Frame")
+mainFrame.Name = "MainFrame"
+mainFrame.Size = UDim2.new(0, 150, 0, 70) -- Nhỏ hơn từ 200x80 xuống 150x70
+mainFrame.Position = UDim2.new(0.5, -75, 0.5, -35) -- Điều chỉnh position
+mainFrame.BackgroundTransparency = 0.3 -- Trong suốt
+mainFrame.BackgroundColor3 = Color3.new(0, 0, 0) -- Màu đen nhạt
+mainFrame.BorderSizePixel = 0
+mainFrame.Parent = screenGui
+
+-- Bo góc cho Frame chính
+local mainCorner = Instance.new("UICorner")
+mainCorner.CornerRadius = UDim.new(0, 8)
+mainCorner.Parent = mainFrame
+
+-- Tạo UIStroke cho viền rainbow
+local mainStroke = Instance.new("UIStroke")
+mainStroke.Color = Color3.new(1, 0, 0) -- Bắt đầu với màu đỏ
+mainStroke.Thickness = 3
+mainStroke.Parent = mainFrame
+
+-- Tạo tiêu đề "Vietnamese Hub"
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Name = "TitleLabel"
+titleLabel.Size = UDim2.new(1, 0, 0, 25) -- To hơn
+titleLabel.Position = UDim2.new(0, 0, 0, 2)
+titleLabel.BackgroundTransparency = 1
+titleLabel.TextColor3 = Color3.new(1, 0, 0) -- Bắt đầu với màu đỏ
+titleLabel.Text = "Vietnamese Hub"
+titleLabel.TextSize = 14 -- To hơn
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextStrokeTransparency = 0.3
+titleLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+titleLabel.Parent = mainFrame
+
+-- Tạo container cho toggle switch (to hơn)
+local toggleContainer = Instance.new("Frame")
+toggleContainer.Name = "ToggleContainer"
+toggleContainer.Size = UDim2.new(0, 70, 0, 30) -- To hơn từ 60x25 lên 70x30
+toggleContainer.Position = UDim2.new(0.5, -35, 0.5, 0) -- Điều chỉnh position
+toggleContainer.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3) -- Màu xám đen
+toggleContainer.BorderSizePixel = 0
+toggleContainer.Parent = mainFrame
+
+-- Bo góc cho container
+local containerCorner = Instance.new("UICorner")
+containerCorner.CornerRadius = UDim.new(0, 15) -- To hơn
+containerCorner.Parent = toggleContainer
+
+-- Tạo UIStroke cho viền đỏ của container
+local containerStroke = Instance.new("UIStroke")
+containerStroke.Color = Color3.new(1, 0, 0) -- Đỏ thay vì vàng
+containerStroke.Thickness = 2
+containerStroke.Parent = toggleContainer
+
+-- Tạo nút tròn có thể click (to hơn)
+local toggleButton = Instance.new("Frame")
+toggleButton.Name = "ToggleButton"
+toggleButton.Size = UDim2.new(0, 26, 0, 26) -- To hơn từ 20x20 lên 26x26
+toggleButton.Position = UDim2.new(0, 2, 0.5, -13) -- Điều chỉnh position
+toggleButton.BackgroundColor3 = Color3.new(1, 1, 1) -- Màu trắng
+toggleButton.BorderSizePixel = 0
+toggleButton.Parent = toggleContainer
+
+-- Bo góc để tạo hình tròn
+local buttonCorner = Instance.new("UICorner")
+buttonCorner.CornerRadius = UDim.new(0, 13) -- Điều chỉnh theo size mới
+buttonCorner.Parent = toggleButton
+
+-- Tạo UIStroke cho viền đỏ của nút
+local buttonStroke = Instance.new("UIStroke")
+buttonStroke.Color = Color3.new(1, 0, 0) -- Đỏ thay vì vàng
+buttonStroke.Thickness = 1
+buttonStroke.Parent = toggleButton
+
+-- Tạo text label hiển thị trạng thái
+local statusLabel = Instance.new("TextLabel")
+statusLabel.Name = "StatusLabel"
+statusLabel.Size = UDim2.new(1, 0, 0, 12)
+statusLabel.Position = UDim2.new(0, 0, 1, -15)
+statusLabel.BackgroundTransparency = 1
+statusLabel.TextColor3 = Color3.new(1, 1, 1)
+statusLabel.Text = "Teleport: OFF"
+statusLabel.TextSize = 8 -- Nhỏ hơn
+statusLabel.Font = Enum.Font.Gotham
+statusLabel.Parent = mainFrame
+
+-- Tạo Frame màn hình đen cho hiệu ứng teleport
+local blackScreen = Instance.new("Frame")
+blackScreen.Name = "BlackScreen"
+blackScreen.Size = UDim2.new(1, 0, 1, 0)
+blackScreen.Position = UDim2.new(0, 0, 0, 0)
+blackScreen.BackgroundColor3 = Color3.new(0, 0, 0) -- Màu đen
+blackScreen.Visible = false
+blackScreen.Parent = screenGui
+
+-- Tạo text "Đang teleport..." (dòng đầu tiên)
+local teleportText = Instance.new("TextLabel")
+teleportText.Name = "TeleportText"
+teleportText.Size = UDim2.new(0, 400, 0, 50)
+teleportText.Position = UDim2.new(0.5, -200, 0.5, -60) -- Dời lên trên
+teleportText.BackgroundTransparency = 1
+teleportText.TextColor3 = Color3.new(1, 1, 1)
+teleportText.Text = " Chúng Tôi Đang Cố gắng Teleport..."
+teleportText.TextSize = 28
+teleportText.Font = Enum.Font.GothamBold
+teleportText.TextStrokeTransparency = 0.5
+teleportText.TextStrokeColor3 = Color3.new(0, 0, 0)
+teleportText.Parent = blackScreen
+
+-- Tạo text "Vietnamese Hub" với hiệu ứng rainbow (dòng thứ 2)
+local vietnameseHubText = Instance.new("TextLabel")
+vietnameseHubText.Name = "VietnameseHubText"
+vietnameseHubText.Size = UDim2.new(0, 400, 0, 50)
+vietnameseHubText.Position = UDim2.new(0.5, -200, 0.5, -10) -- Giữa màn hình
+vietnameseHubText.BackgroundTransparency = 1
+vietnameseHubText.TextColor3 = Color3.new(1, 0, 0) -- Sẽ được thay đổi bởi rainbow
+vietnameseHubText.Text = "Vietnamese Hub"
+vietnameseHubText.TextSize = 32
+vietnameseHubText.Font = Enum.Font.GothamBold
+vietnameseHubText.TextStrokeTransparency = 0.3
+vietnameseHubText.TextStrokeColor3 = Color3.new(0, 0, 0)
+vietnameseHubText.Parent = blackScreen
+
+-- Tạo text dòng thứ 3
+local thirdText = Instance.new("TextLabel")
+thirdText.Name = "ThirdText"
+thirdText.Size = UDim2.new(0, 600, 0, 50)
+thirdText.Position = UDim2.new(0.5, -300, 0.5, 40) -- Dưới "Vietnamese Hub"
+thirdText.BackgroundTransparency = 1
+thirdText.TextColor3 = Color3.new(1, 1, 1) -- Màu trắng
+thirdText.Text = "on Top Secret Bug Sammy anti cheat Top 1"
+thirdText.TextSize = 24
+thirdText.Font = Enum.Font.GothamBold
+thirdText.TextStrokeTransparency = 0.5
+thirdText.TextStrokeColor3 = Color3.new(0, 0, 0)
+thirdText.Parent = blackScreen
+
+-- Biến trạng thái
+local isToggled = false
+local isDragging = false
+local isRainbowActive = false
+
+-- THÊM BIẾN CHO CHỨC NĂNG KÉO THẢ
+local dragging = false
+local dragStart = nil
+local startPos = nil
+
+-- Hàm HSV sang RGB
+local function HSVtoRGB(h, s, v)
+    local r, g, b
+    local i = math.floor(h * 6)
+    local f = h * 6 - i
+    local p = v * (1 - s)
+    local q = v * (1 - f * s)
+    local t = v * (1 - (1 - f) * s)
+    
+    local imod = i % 6
+    if imod == 0 then
+        r, g, b = v, t, p
+    elseif imod == 1 then
+        r, g, b = q, v, p
+    elseif imod == 2 then
+        r, g, b = p, v, t
+    elseif imod == 3 then
+        r, g, b = p, q, v
+    elseif imod == 4 then
+        r, g, b = t, p, v
+    elseif imod == 5 then
+        r, g, b = v, p, q
+    end
+    
+    return r, g, b
+end
+
+-- THÊM HÀM CẬP NHẬT VỊ TRÍ CHO CHỨC NĂNG KÉO THẢ
+local function updateInput(input)
+    local delta = input.Position - dragStart
+    local newPosition = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    mainFrame.Position = newPosition
+end
+
+-- Hàm tạo hiệu ứng rainbow cho Vietnamese Hub text
+local function startRainbowEffect()
+    isRainbowActive = true
+    spawn(function()
+        local hue = 0
+        while isRainbowActive do
+            hue = hue + 0.02
+            if hue >= 1 then hue = 0 end
+            
+            local r, g, b = HSVtoRGB(hue, 1, 1)
+            
+            if vietnameseHubText and vietnameseHubText.Parent then
+                vietnameseHubText.TextColor3 = Color3.new(r, g, b)
+                vietnameseHubText.TextStrokeColor3 = Color3.new(r*0.3, g*0.3, b*0.3)
+            end
+            
+            wait(0.05)
+        end
+    end)
+end
+
+-- Hàm dừng hiệu ứng rainbow
+local function stopRainbowEffect()
+    isRainbowActive = false
+    if vietnameseHubText then
+        vietnameseHubText.TextColor3 = Color3.new(1, 0, 0) -- Về màu đỏ ban đầu
+        vietnameseHubText.TextStrokeColor3 = Color3.new(0, 0, 0)
+    end
+end
+
+-- Hàm toggle switch
+local function toggleSwitch()
+    isToggled = not isToggled
+    
+    local targetPosition
+    local targetColor
+    local statusText
+    
+    if isToggled then
+        targetPosition = UDim2.new(0, 42, 0.5, -13) -- Điều chỉnh cho button to hơn
+        targetColor = Color3.new(0, 1, 0) -- Màu xanh lá
+        statusText = "Teleport: ON"
+        toggleContainer.BackgroundColor3 = Color3.new(0, 0.5, 0) -- Container xanh
+    else
+        targetPosition = UDim2.new(0, 2, 0.5, -13) -- Vị trí bên trái
+        targetColor = Color3.new(1, 1, 1) -- Màu trắng
+        statusText = "Teleport: OFF"
+        toggleContainer.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3) -- Container xám
+    end
+    
+    -- Tween animation cho nút
+    local buttonTween = TweenService:Create(
+        toggleButton,
+        TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+        {
+            Position = targetPosition,
+            BackgroundColor3 = targetColor
+        }
+    )
+    buttonTween:Play()
+    
+    -- Tween animation cho container
+    local containerTween = TweenService:Create(
+        toggleContainer,
+        TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+        {}
+    )
+    containerTween:Play()
+    
+    -- Update status text
+    statusLabel.Text = statusText
+    
+    -- Nếu bật thì chạy hiệu ứng teleport
+    if isToggled then
+        wait(0.3) -- Đợi animation hoàn thành
+        startTeleportEffect()
+    end
+end
+
+-- Hàm tạo hiệu ứng teleport
+function startTeleportEffect()
+    if not isToggled then return end
+    
+    -- Ẩn GUI chính
+    mainFrame.Visible = false
+    
+    -- Hiển thị màn hình đen
+    blackScreen.Visible = true
+    
+    -- Tạo hiệu ứng fade in
+    blackScreen.BackgroundTransparency = 1
+    local fadeIn = TweenService:Create(
+        blackScreen,
+        TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+        {BackgroundTransparency = 0}
+    )
+    fadeIn:Play()
+    
+    -- Hiệu ứng máy đánh chữ cho tất cả các dòng text
+    spawn(function()
+        -- Đặt text ban đầu rỗng
+        local fullText1 = " Chúng Tôi Đang Cố gắng Teleport..."
+        local fullText2 = "Vietnamese Hub On Top"
+        local fullText3 = "Secret Bug.. Hey Sammy U Cant Bypass This Script"
+        
+        teleportText.Text = ""
+        vietnameseHubText.Text = ""
+        thirdText.Text = ""
+        
+        -- Hiệu ứng máy đánh chữ cho dòng đầu tiên
+        for i = 1, #fullText1 do
+            if not isToggled then break end
+            teleportText.Text = string.sub(fullText1, 1, i)
+            wait(0.05)
+        end
+        
+        wait(0.5) -- Nghỉ giữa 2 dòng
+        
+        -- Bắt đầu hiệu ứng rainbow cho "Vietnamese Hub On Top"
+        startRainbowEffect()
+        
+        -- Hiệu ứng máy đánh chữ cho dòng thứ hai (Vietnamese Hub)
+        for i = 1, #fullText2 do
+            if not isToggled then break end
+            vietnameseHubText.Text = string.sub(fullText2, 1, i)
+            wait(0.1) -- Chậm hơn một chút để thấy rõ hiệu ứng rainbow
+        end
+        
+        wait(0.5) -- Nghỉ giữa 2 dòng
+        
+        -- Hiệu ứng máy đánh chữ cho dòng thứ ba
+        for i = 1, #fullText3 do
+            if not isToggled then break end
+            thirdText.Text = string.sub(fullText3, 1, i)
+            wait(0.05)
+        end
+        
+        wait(3) -- Hiển thị hoàn chỉnh một lúc với hiệu ứng rainbow
+        
+        -- Dừng hiệu ứng rainbow
+        stopRainbowEffect()
+        
+        -- Fade out và hiện lại GUI
+        local fadeOut = TweenService:Create(
+            blackScreen,
+            TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+            {BackgroundTransparency = 1}
+        )
+        fadeOut:Play()
+        
+        fadeOut.Completed:Connect(function()
+            blackScreen.Visible = false
+            mainFrame.Visible = true
+            -- Reset text về trạng thái ban đầu
+            teleportText.Text = " Chúng Tôi Đang Cố gắng Teleport..."
+            vietnameseHubText.Text = "Vietnamese Hub On Top"
+            thirdText.Text = " Secret Bug.. Hey Sammy U Cant Bypass This Script"
+            
+            -- Tự động tắt toggle sau khi hoàn thành
+            if isToggled then
+                toggleSwitch()
+            end
+        end)
+    end)
+end
+
+-- Tạo nút bấm invisible để sửa lỗi click
+local clickButton = Instance.new("TextButton")
+clickButton.Name = "ClickButton"
+clickButton.Size = UDim2.new(1, 0, 1, 0)
+clickButton.Position = UDim2.new(0, 0, 0, 0)
+clickButton.BackgroundTransparency = 1
+clickButton.Text = ""
+clickButton.Parent = toggleContainer
+
+-- Xử lý click
+clickButton.MouseButton1Click:Connect(function()
+    if not dragging then -- Chỉ toggle khi không đang kéo
+        toggleSwitch()
+    end
+end)
+
+-- THÊM XỬ LÝ SỰ KIỆN KÉO THẢ CHO TITLE LABEL
+titleLabel.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+        
+        -- Kết nối sự kiện kết thúc kéo
+        local connection
+        connection = input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+                connection:Disconnect()
+            end
+        end)
+    end
+end)
+
+-- Xử lý di chuyển chuột/touch trên title label
+titleLabel.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        if dragging then
+            updateInput(input)
+        end
+    end
+end)
+
+-- Xử lý di chuyển toàn cục
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        updateInput(input)
+    end
+end)
+
+-- Xử lý kết thúc kéo toàn cục
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
+    end
+end)
+
+-- Hiệu ứng hover cho container
+toggleContainer.MouseEnter:Connect(function()
+    local hoverTween = TweenService:Create(
+        containerStroke,
+        TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+        {Thickness = 3}
+    )
+    hoverTween:Play()
+end)
+
+toggleContainer.MouseLeave:Connect(function()
+    local leaveTween = TweenService:Create(
+        containerStroke,
+        TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+        {Thickness = 2}
+    )
+    leaveTween:Play()
+end)
+
+-- Tạo Frame riêng biệt cho "made by Vietnam"
+local madeByFrame = Instance.new("Frame")
+madeByFrame.Name = "MadeByFrame"
+madeByFrame.Size = UDim2.new(0, 120, 0, 30)
+madeByFrame.Position = UDim2.new(0.5, -60, 0.8, -15) -- Vị trí dưới GUI chính
+madeByFrame.BackgroundTransparency = 0.3
+madeByFrame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1) -- Màu đen nhạt
+madeByFrame.BorderSizePixel = 0
+madeByFrame.Parent = screenGui
+
+-- Bo góc cho frame "made by"
+local madeByCorner = Instance.new("UICorner")
+madeByCorner.CornerRadius = UDim.new(0, 6)
+madeByCorner.Parent = madeByFrame
+
+-- Tạo UIStroke cho viền rainbow của "made by"
+local madeByStroke = Instance.new("UIStroke")
+madeByStroke.Color = Color3.new(1, 0, 0) -- Bắt đầu với màu đỏ
+madeByStroke.Thickness = 2
+madeByStroke.Parent = madeByFrame
+
+-- Tạo text "made by Vietnam"
+local madeByLabel = Instance.new("TextLabel")
+madeByLabel.Name = "MadeByLabel"
+madeByLabel.Size = UDim2.new(1, 0, 1, 0)
+madeByLabel.Position = UDim2.new(0, 0, 0, 0)
+madeByLabel.BackgroundTransparency = 1
+madeByLabel.TextColor3 = Color3.new(1, 0, 0) -- Bắt đầu với màu đỏ
+madeByLabel.Text = "made by Vietnam"
+madeByLabel.TextSize = 12
+madeByLabel.Font = Enum.Font.GothamBold
+madeByLabel.TextStrokeTransparency = 0.3
+madeByLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+madeByLabel.Parent = madeByFrame
+
+-- THÊM BIẾN CHO CHỨC NĂNG KÉO THẢ CỦA "MADE BY"
+local madeByDragging = false
+local madeByDragStart = nil
+local madeByStartPos = nil
+
+-- HÀM CẬP NHẬT VỊ TRÍ CHO "MADE BY"
+local function updateMadeByInput(input)
+    local delta = input.Position - madeByDragStart
+    local newPosition = UDim2.new(madeByStartPos.X.Scale, madeByStartPos.X.Offset + delta.X, madeByStartPos.Y.Scale, madeByStartPos.Y.Offset + delta.Y)
+    madeByFrame.Position = newPosition
+end
+
+-- XỬ LÝ SỰ KIỆN KÉO THẢ CHO "MADE BY"
+madeByLabel.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        madeByDragging = true
+        madeByDragStart = input.Position
+        madeByStartPos = madeByFrame.Position
+        
+        -- Kết nối sự kiện kết thúc kéo
+        local connection
+        connection = input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                madeByDragging = false
+                connection:Disconnect()
+            end
+        end)
+    end
+end)
+
+-- Xử lý di chuyển chuột/touch trên "made by" label
+madeByLabel.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        if madeByDragging then
+            updateMadeByInput(input)
+        end
+    end
+end)
+
+-- Cập nhật xử lý di chuyển toàn cục để bao gồm "made by"
+UserInputService.InputChanged:Connect(function(input)
+    if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        if dragging then
+            updateInput(input)
+        elseif madeByDragging then
+            updateMadeByInput(input)
+        end
+    end
+end)
+
+-- Cập nhật xử lý kết thúc kéo toàn cục
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
+        madeByDragging = false
+    end
+end)
+
+print("Vietnamese Hub GUI với toggle switch, rainbow effect và draggable đã được tạo thành công!")
+print("Frame 'made by Vietnam' riêng biệt cũng có thể kéo thả!")
+
+-- Tạo hiệu ứng rainbow cho chữ title và viền GUI (không bị ảnh hưởng bởi teleport effect)
+spawn(function()
+    local hue = 0
+    while true do
+        hue = hue + 0.01
+        if hue >= 1 then hue = 0 end
+        
+        local r, g, b = HSVtoRGB(hue, 1, 1)
+        
+        -- Áp dụng màu rainbow cho chữ title
+        if titleLabel then
+            titleLabel.TextColor3 = Color3.new(r, g, b)
+        end
+        
+        -- Áp dụng màu rainbow cho viền GUI
+        if mainStroke then
+            mainStroke.Color = Color3.new(r, g, b)
+        end
+        
+        wait(0.1)
+    end
+end)
